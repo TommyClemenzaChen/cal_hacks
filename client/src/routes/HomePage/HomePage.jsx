@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 import './HomePage.css';
 
@@ -117,7 +118,13 @@ export default function HomePage() {
 									className={`chatbox-message ${
 										message.isBot ? 'bot' : 'user'
 									}`}>
-									<p className='chatbox-text'>{message.text}</p>
+									{message.isBot ? (
+										<div className='chatbox-text-result'>
+											<ReactMarkdown>{message.text}</ReactMarkdown>
+										</div>
+									) : (
+										<p className='chatbox-text'>{message.text}</p>
+									)}
 								</div>
 							))}
 							{isLoading && (

@@ -253,6 +253,13 @@
 	color: #333;
 }
 
+.chatbox-text-result {
+	font-size: 1rem;
+	color: #333;
+	margin: 10px 0;
+	margin-left: 20px;
+}
+
 .chatbox-text-input {
 	flex-grow: 1;
 	padding: 10px 15px;
