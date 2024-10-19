@@ -253,6 +253,13 @@
 	color: #333;
 }
 
+.chatbox-text-result {
+	font-size: 1rem;
+	color: #333;
+	margin: 10px 0;
+	margin-left: 20px;
+}
+
 .chatbox-text-input {
 	flex-grow: 1;
 	padding: 10px 15px;
@@ -274,7 +281,7 @@
 }
 
 .chatbox-send-btn:hover {
-	background-color: #4a2580;
+	background-color: #a67be6;
 }
 
 .chatbox-messages {
@@ -334,6 +341,9 @@
 	background-color: transparent;
 	color: #5b2c96;
 	border: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	padding: 10px;
 	margin-left: 10px;
 	cursor: pointer;
