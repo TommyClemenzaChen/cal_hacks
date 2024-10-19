@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import axios from 'axios';
 import './HomePage.css';
@@ -6,6 +6,12 @@ import './HomePage.css';
 export default function HomePage() {
 	const [user, setUser] = useState(null);
 	const auth = getAuth();
+
+	const chatboxRef = useRef(null);
+
+	const scrollToBottom = () => {
+		chatboxRef.current?.scrollIntoView({ behavior: 'smooth' });
+	};
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -80,10 +86,29 @@ export default function HomePage() {
 						will assess your situation and its severity
 					</h1>
 				</div>
-				<div className='scroll-indicator'>
+				<div className='scroll-indicator' onClick={scrollToBottom}>
 					<div className='scroll-arrow'></div>
 				</div>
 			</main>
+			<section className='chatbox-section' ref={chatboxRef}>
+				<div className='chatbox-container'>
+					<div className='chatbox'>
+						<div className='chatbox-messages'>
+							<div className='chatbox-message'>
+								<p className='chatbox-text'>Hello, how can I help you today?</p>
+							</div>
+						</div>
+						<div className='chatbox-input'>
+							<input
+								type='text'
+								className='chatbox-text-input'
+								placeholder='Type your message here...'
+							/>
+							<button className='chatbox-send-btn'>Send</button>
+						</div>
+					</div>
+				</div>
+			</section>
 		</div>
 	);
 }
