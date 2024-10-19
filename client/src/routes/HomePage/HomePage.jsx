@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import axios from 'axios';
 import './HomePage.css';
 
 export default function HomePage() {
@@ -17,6 +18,23 @@ export default function HomePage() {
 
 		return () => unsubscribe();
 	}, [auth]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const res = await axios.post('http://localhost:8000/api/llm/groq', {
+					message: 'Tell me a joke about programming.',
+				});
+
+				const data = res.data;
+
+				console.log('Data:', data.response);
+			} catch (err) {
+				console.error('Error at query:', err);
+			}
+		};
+		fetchData();
+	}, []);
 
 	const handleSignOut = async () => {
 		try {
