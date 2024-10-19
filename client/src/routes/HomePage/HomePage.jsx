@@ -6,7 +6,7 @@ import './HomePage.css';
 export default function HomePage() {
 	const [user, setUser] = useState(null);
 	const [messages, setMessages] = useState([
-		{ text: 'Hello, how can I help you today?', isBot: true },
+		{ text: '[BOT]: Hello, how can I help you today?', isBot: true },
 	]);
 	const [inputMessage, setInputMessage] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
@@ -66,6 +66,11 @@ export default function HomePage() {
 		} finally {
 			setIsLoading(false);
 		}
+	};
+
+	const adjustTextareaHeight = (textarea) => {
+		textarea.style.height = 'auto'; // Reset height
+		textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
 	};
 
 	return (
@@ -128,12 +133,13 @@ export default function HomePage() {
 							<div ref={messagesEndRef} />
 						</div>
 						<div className='chatbox-input'>
-							<input
-								type='text'
+							<textarea
 								className='chatbox-text-input'
 								placeholder='Type your message here...'
 								value={inputMessage}
 								onChange={handleInputChange}
+								rows={1} // Initial rows
+								style={{ resize: 'none', overflow: 'hidden' }} // Prevent manual resizing
 							/>
 							<button
 								className='chatbox-send-btn'

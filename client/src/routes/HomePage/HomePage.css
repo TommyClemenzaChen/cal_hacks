@@ -185,17 +185,6 @@
 	padding: 10px; /* Optional for spacing */
 }
 
-.chatbox-input {
-	display: flex;
-	align-items: center;
-	justify-content: center; /* Centers the input horizontally */
-	padding: 10px;
-	background-color: #f0f0f0;
-	border-radius: 20px;
-	border-top: 1px solid #ccc;
-	margin-top: 10px;
-}
-
 .hero-section {
 	height: 100vh;
 	padding: 0 20px;
@@ -264,15 +253,6 @@
 	color: #333;
 }
 
-.chatbox-input {
-	display: flex;
-	align-items: center;
-	padding: 10px;
-	background-color: #f0f0f0;
-	border-top: 1px solid #ccc;
-	border-radius: 20px;
-}
-
 .chatbox-text-input {
 	flex-grow: 1;
 	padding: 10px 15px;
@@ -329,11 +309,15 @@
 }
 
 .chatbox-input {
+	width: 900px;
 	display: flex;
 	align-items: center;
+	justify-content: center; /* Centers the input horizontally */
 	padding: 10px;
 	background-color: #f0f0f0;
+	border-radius: 20px;
 	border-top: 1px solid #ccc;
+	margin-top: 10px;
 }
 
 .chatbox-text-input {
