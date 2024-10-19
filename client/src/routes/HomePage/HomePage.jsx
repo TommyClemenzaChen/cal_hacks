@@ -2,23 +2,35 @@ import './HomePage.css';
 
 export default function HomePage() {
 	return (
-		<div>
+		<div className='page-container'>
 			<header>
-				<nav>
-					<div></div>
-					<ul>
+				<nav className='navbar'>
+					<ul className='nav-links'>
 						<li>
-							<a href='/voice'>Voice</a>
+							<a href='#'>Voice</a>
 						</li>
 						<li>
-							<a href='/upload'>Upload</a>
+							<a href='#'>Upload</a>
 						</li>
 					</ul>
-					<div>
-						<a href='/signin'>Sign in &gt;</a>
+					<div className='navbar-right'>
+						<a href='/signin' className='sign-in-btn'>
+							Sign in &gt;
+						</a>
 					</div>
 				</nav>
 			</header>
+			<main className='hero-section'>
+				<div className='hero-content'>
+					<h1 className='hero-title'>
+						Let go of any worries you have about how you&apos;re feeling. We
+						will assess your situation and its severity
+					</h1>
+				</div>
+				<div className='scroll-indicator'>
+					<div className='scroll-arrow'></div>
+				</div>
+			</main>
 		</div>
 	);
 }
