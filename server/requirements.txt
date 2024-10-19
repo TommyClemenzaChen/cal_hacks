@@ -4,3 +4,7 @@ requests
 openai
 groq
 python-dotenv
+
+llama_index
+chromadb
+llama-index-embeddings-jinaai
