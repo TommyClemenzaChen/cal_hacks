@@ -134,7 +134,6 @@ export default function HomePage() {
 								placeholder='Type your message here...'
 								value={inputMessage}
 								onChange={handleInputChange}
-								onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
 							/>
 							<button
 								className='chatbox-send-btn'

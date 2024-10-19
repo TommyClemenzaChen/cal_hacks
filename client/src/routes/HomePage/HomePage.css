@@ -6,7 +6,6 @@
 }
 
 .page-container {
-	min-height: 100vh;
 	background: linear-gradient(
 		135deg,
 		#fff3e0 0%,
@@ -65,7 +64,7 @@
 
 .scroll-indicator {
 	position: absolute;
-	bottom: 40px;
+	bottom: 110px;
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -165,7 +164,7 @@
 
 .chatbox-container {
 	width: 500px;
-	height: 900px;
+
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -173,19 +172,32 @@
 }
 
 .chatbox-container {
-	min-height: 500px;
-	width: 500px;
-	border: 1px solid #ccc;
+	width: 80%;
+	max-width: 1100px;
+	height: 800px;
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius: 20px;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end; /* Ensures input stays at the bottom */
+	margin-bottom: 40px;
+	padding: 10px; /* Optional for spacing */
 }
 
 .chatbox-input {
-	width: 500px;
-	min-height: 50px;
-	border: 1px solid #ccc;
+	display: flex;
+	align-items: center;
+	justify-content: center; /* Centers the input horizontally */
+	padding: 10px;
+	background-color: #f0f0f0;
+	border-radius: 20px;
+	border-top: 1px solid #ccc;
+	margin-top: 10px;
 }
 
 .hero-section {
-	min-height: 50vh; /* Reduced height to make room for chatbox */
+	height: 100vh;
 	padding: 0 20px;
 }
 
@@ -210,12 +222,13 @@
 	justify-content: center;
 	align-items: center;
 	padding: 2rem;
+	height: 100vh;
 }
 
 .chatbox-container {
 	width: 80%; /* Increased width */
-	max-width: 600px; /* Set a max-width */
-	height: 400px;
+	max-width: 1100px; /* Set a max-width */
+	height: 800px;
 	background-color: rgba(255, 255, 255, 0.9);
 	border-radius: 20px;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
