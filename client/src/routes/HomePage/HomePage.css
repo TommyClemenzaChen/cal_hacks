@@ -274,7 +274,7 @@
 }
 
 .chatbox-send-btn:hover {
-	background-color: #4a2580;
+	background-color: #a67be6;
 }
 
 .chatbox-messages {
@@ -334,6 +334,9 @@
 	background-color: transparent;
 	color: #5b2c96;
 	border: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	padding: 10px;
 	margin-left: 10px;
 	cursor: pointer;
