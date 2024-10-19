@@ -19,4 +19,4 @@ def invoke_groq(prompt, model = "llama-3.1-8b-instant", json_mode = False):
         return response.choices[0].message.content
 
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error at invoking groq:  {e}")
