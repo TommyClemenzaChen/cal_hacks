@@ -128,12 +128,6 @@
 	margin: 0 auto;
 }
 
-.nav-links a {
-	color: #000;
-	font-weight: 600;
-	text-decoration: none;
-}
-
 .nav-links li {
 	list-style: none;
 }
@@ -158,4 +152,30 @@
 .sign-out-btn:hover,
 .sign-in-btn:hover {
 	background-color: rgba(255, 255, 255, 0.4);
+}
+
+.nav-links a {
+	color: #000;
+	font-weight: 600;
+	text-decoration: none;
+	position: relative; /* This allows us to style the underline creatively */
+	transition: color 0.3s ease-in-out; /* Smooth color change */
+}
+
+/* Underline effect using pseudo-element */
+.nav-links a::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -4px;
+	width: 0; /* Start with no underline */
+	height: 2px;
+	background-color: white;
+	transition: width 0.3s ease-in-out; /* Smooth underline animation */
+}
+
+/* On hover or active state, expand the underline */
+.nav-links a:hover::after,
+.active-link::after {
+	width: 100%; /* Fully underline the link */
 }
