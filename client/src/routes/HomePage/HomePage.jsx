@@ -19,22 +19,22 @@ export default function HomePage() {
 		return () => unsubscribe();
 	}, [auth]);
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const res = await axios.post('http://localhost:8000/api/llm/groq', {
-					message: 'Tell me a joke about programming.',
-				});
+	// useEffect(() => {
+	// 	const fetchData = async () => {
+	// 		try {
+	// 			const res = await axios.post('http://localhost:8000/api/llm/groq', {
+	// 				message: 'Tell me a joke about programming.',
+	// 			});
 
-				const data = res.data;
+	// 			const data = res.data;
 
-				console.log('Data:', data.response);
-			} catch (err) {
-				console.error('Error at query:', err);
-			}
-		};
-		fetchData();
-	}, []);
+	// 			console.log('Data:', data.response);
+	// 		} catch (err) {
+	// 			console.error('Error at query:', err);
+	// 		}
+	// 	};
+	// 	fetchData();
+	// }, []);
 
 	const handleSignOut = async () => {
 		try {
@@ -50,6 +50,9 @@ export default function HomePage() {
 			<header>
 				<nav className='navbar'>
 					<ul className='nav-links'>
+						<li>
+							<a href='/'>Homepage</a>
+						</li>
 						<li>
 							<a href='/voice'>Voice</a>
 						</li>

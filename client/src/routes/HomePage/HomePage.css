@@ -18,11 +18,10 @@
 		#5b2c96 100%
 	);
 	position: relative;
-	background-size: 200% 200%; /* Make the gradient twice as wide */
-	animation: gradientMove 10s ease infinite; /* Adjust time (15s) to make it faster/slower */
+	background-size: 200% 200%;
+	animation: gradientMove 10s ease infinite;
 }
 
-/* Darkening overlay */
 .page-container::before {
 	content: '';
 	position: absolute;
@@ -46,7 +45,6 @@
 	}
 }
 
-/* Keep your content above the overlay */
 .navbar,
 .hero-section {
 	position: relative;
@@ -108,7 +106,6 @@
 	}
 }
 
-/* Update your existing navbar styles */
 .navbar {
 	padding: 20px 50px;
 	background-color: transparent;
@@ -116,7 +113,6 @@
 	z-index: 10;
 	display: flex;
 	align-items: center;
-	/* justify-content: space-between; */
 }
 
 .nav-links {
@@ -126,12 +122,6 @@
 	justify-content: center;
 	font-size: 24px;
 	margin: 0 auto;
-}
-
-.nav-links a {
-	color: #000;
-	font-weight: 600;
-	text-decoration: none;
 }
 
 .nav-links li {
@@ -158,4 +148,28 @@
 .sign-out-btn:hover,
 .sign-in-btn:hover {
 	background-color: rgba(255, 255, 255, 0.4);
+}
+
+.nav-links a {
+	color: #000;
+	font-weight: 600;
+	text-decoration: none;
+	position: relative;
+	transition: color 0.3s ease-in-out;
+}
+
+.nav-links a::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -4px;
+	width: 0;
+	height: 2px;
+	background-color: white;
+	transition: width 0.3s ease-in-out;
+}
+
+.nav-links a:hover::after,
+.active-link::after {
+	width: 100%;
 }
