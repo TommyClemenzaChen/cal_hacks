@@ -8,10 +8,10 @@ export default function HomePage() {
 					<div></div>
 					<ul>
 						<li>
-							<a href='#'>Image Upload</a>
+							<a href='/voice'>Voice</a>
 						</li>
 						<li>
-							<a href='#'>Voice</a>
+							<a href='/upload'>Upload</a>
 						</li>
 					</ul>
 					<div>
