@@ -18,11 +18,10 @@
 		#5b2c96 100%
 	);
 	position: relative;
-	background-size: 200% 200%; /* Make the gradient twice as wide */
-	animation: gradientMove 10s ease infinite; /* Adjust time (15s) to make it faster/slower */
+	background-size: 200% 200%;
+	animation: gradientMove 10s ease infinite;
 }
 
-/* Darkening overlay */
 .page-container::before {
 	content: '';
 	position: absolute;
@@ -46,7 +45,6 @@
 	}
 }
 
-/* Keep your content above the overlay */
 .navbar,
 .hero-section {
 	position: relative;
@@ -108,7 +106,6 @@
 	}
 }
 
-/* Update your existing navbar styles */
 .navbar {
 	padding: 20px 50px;
 	background-color: transparent;
@@ -116,7 +113,6 @@
 	z-index: 10;
 	display: flex;
 	align-items: center;
-	/* justify-content: space-between; */
 }
 
 .nav-links {
@@ -158,24 +154,22 @@
 	color: #000;
 	font-weight: 600;
 	text-decoration: none;
-	position: relative; /* This allows us to style the underline creatively */
-	transition: color 0.3s ease-in-out; /* Smooth color change */
+	position: relative;
+	transition: color 0.3s ease-in-out;
 }
 
-/* Underline effect using pseudo-element */
 .nav-links a::after {
 	content: '';
 	position: absolute;
 	left: 0;
 	bottom: -4px;
-	width: 0; /* Start with no underline */
+	width: 0;
 	height: 2px;
 	background-color: white;
-	transition: width 0.3s ease-in-out; /* Smooth underline animation */
+	transition: width 0.3s ease-in-out;
 }
 
-/* On hover or active state, expand the underline */
 .nav-links a:hover::after,
 .active-link::after {
-	width: 100%; /* Fully underline the link */
+	width: 100%;
 }
