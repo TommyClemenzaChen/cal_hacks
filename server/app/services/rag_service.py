@@ -11,12 +11,16 @@ from flask import current_app
 sys.path.append("/Users/tommychen/cal_hacks/server/app/services")
 from groq_service import invoke_groq
 
+from dotenv import load_dotenv
+
+
 CHROMA_PATH = "app/data/chroma"
 
 
-def _get_retriever(k = 3):
+def get_retriever(k = 3):
     try:
-        JINA_AI_API_KEY = current_app.config["JINA_AI_API_KEY"]
+        load_dotenv()
+        JINA_AI_API_KEY = os.getenv("JINA_AI_API_KEY")
 
         
         db = chromadb.PersistentClient(path=CHROMA_PATH)
@@ -35,14 +39,14 @@ def _get_retriever(k = 3):
         )
 
         retriever = index.as_retriever(similarity_top_k = k)
-        
+        print('retriever created')
         return retriever
     except Exception as e:
         print(f"Error at getting retrieval: {e}")
 
 def invoke_rag(query_text: str):
     try:
-        retriever = _get_retriever()
+        retriever = current_app.config["Retriever"]
         retrieved_content = retriever.retrieve(query_text)
 
         # Extracting text from the selected nodes
@@ -50,17 +54,14 @@ def invoke_rag(query_text: str):
         for content in retrieved_content:
             context += content.text + "\n"
 
-
-        prompt = PromptTemplate(
-        "Context information is below.\n"
-        "---------------------\n"
-        "{context_str}\n"
-        "---------------------\n"
-        "Given the context information and not prior knowledge, "
-        "answer the query.\n"
-        "Query: {query_str}\n"
-        "Answer: "
-        )
+        prompt = """
+You are a knowledgeable medical assistant, providing accurate, evidence-based answers to medical questions. Use the context from the RAG model, which includes clinical guidelines and medical research, to answer the following question. Offer possible diagnoses, treatments, or recommended next steps, considering symptoms and medical history.
+Context:
+{context_str}
+Question:
+{query_str}
+"""
+        
         formatted_prompt = prompt.format(context_str=context, query_str=query_text)
         
         response = invoke_groq(formatted_prompt)
