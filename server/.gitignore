@@ -5,6 +5,4 @@
 __pycache__/
 *.pyc
 
-*.sqlite3
-*.db
-app/data/chroma/*
+server/app/data/chroma/chroma.sqlite3
