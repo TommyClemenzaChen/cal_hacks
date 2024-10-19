@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, onChange } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import axios from 'axios';
 import './HomePage.css';
@@ -66,11 +66,6 @@ export default function HomePage() {
 		} finally {
 			setIsLoading(false);
 		}
-	};
-
-	const adjustTextareaHeight = (textarea) => {
-		textarea.style.height = 'auto'; // Reset height
-		textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
 	};
 
 	return (
