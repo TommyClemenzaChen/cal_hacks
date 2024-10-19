@@ -50,7 +50,7 @@ export default function HomePage() {
 		setIsLoading(true);
 
 		try {
-			const res = await axios.post('http://localhost:8000/api/llm/groq', {
+			const res = await axios.post('http://localhost:8000/api/llm/rag_groq', {
 				message: inputMessage,
 			});
 
