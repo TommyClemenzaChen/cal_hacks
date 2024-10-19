@@ -115,6 +115,7 @@
 	position: relative;
 	z-index: 10;
 	display: flex;
+	align-items: center;
 	/* justify-content: space-between; */
 }
 
@@ -142,14 +143,19 @@
 	justify-content: center;
 }
 
+.sign-out-btn,
 .sign-in-btn {
 	background-color: rgba(255, 255, 255, 0.3);
 	padding: 10px 20px;
 	border-radius: 25px;
 	color: #000;
 	font-weight: 500;
+	border: none;
+	font-size: 14px;
+	cursor: pointer;
 }
 
+.sign-out-btn:hover,
 .sign-in-btn:hover {
 	background-color: rgba(255, 255, 255, 0.4);
 }

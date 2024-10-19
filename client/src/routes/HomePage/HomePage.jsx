@@ -1,22 +1,54 @@
+import { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import './HomePage.css';
 
 export default function HomePage() {
+	const [user, setUser] = useState(null);
+	const auth = getAuth();
+
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			if (user) {
+				setUser(user);
+			} else {
+				setUser(null);
+			}
+		});
+
+		return () => unsubscribe();
+	}, []);
+
+	const handleSignOut = async () => {
+		try {
+			await signOut(auth);
+			console.log('Signed out');
+		} catch (err) {
+			console.log('Error signing out: ', err);
+		}
+	};
+
 	return (
 		<div className='page-container'>
 			<header>
 				<nav className='navbar'>
 					<ul className='nav-links'>
 						<li>
-							<a href='#'>Voice</a>
+							<a href='/voice'>Voice</a>
 						</li>
 						<li>
-							<a href='#'>Upload</a>
+							<a href='/upload'>Upload</a>
 						</li>
 					</ul>
-					<div className='navbar-right'>
-						<a href='/signin' className='sign-in-btn'>
-							Sign in &gt;
-						</a>
+					<div>
+						{user ? (
+							<button className='sign-out-btn' onClick={handleSignOut}>
+								Log out
+							</button>
+						) : (
+							<a href='/signin' className='sign-in-btn'>
+								Sign in
+							</a>
+						)}
 					</div>
 				</nav>
 			</header>
