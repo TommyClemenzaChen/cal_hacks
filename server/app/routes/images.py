@@ -16,37 +16,50 @@ def allowed_file(filename):
 
 @images_bp.route("/upload", methods=["POST"])
 def upload_file():
-    if "file" not in request.json and "text" not in request.json:
-        return jsonify({"error": "No file or text provided"}), 400
+    # Ensure both file and text are present in the request
+    if "file" not in request.json or "text" not in request.json:
+        return jsonify({"error": "Both file and text must be provided"}), 400
 
-    if "file" in request.json:
-        file_data = request.json["file"]
-        # Check if the file data is a valid base64 string
-        if file_data.startswith("data:image/"):
-            # Extract the base64 string and decode it
-            header, encoded = file_data.split(",", 1)
-            file_bytes = base64.b64decode(encoded)
+    file_data = request.json["file"]
+    text = request.json["text"]
+    print(text)
 
-            # Create a filename and save the file
-            filename = secure_filename("image.png")  # You can customize the filename
-            if not os.path.exists(UPLOAD_FOLDER):
-                os.makedirs(UPLOAD_FOLDER)
-            with open(os.path.join(UPLOAD_FOLDER, filename), "wb") as f:
-                f.write(file_bytes)
+    # Check if the file data is a valid base64 string
+    if not file_data.startswith("data:image/"):
+        return jsonify({"error": "Invalid file format"}), 400
 
-            print(f"File saved as {filename}")
-            return jsonify({"message": "File uploaded successfully"}), 200
-        else:
-            return jsonify({"error": "Invalid file format"}), 400
+    # Extract the base64 string and decode it
+    header, encoded = file_data.split(",", 1)
+    file_bytes = base64.b64decode(encoded)
 
-    if "text" in request.json:
-        text = request.json["text"]
-        print(text)
-        # Process the text here (e.g., save to a file or database)
-        return jsonify({"message": "Text uploaded successfully"}), 200
+    # Create a filename and save the file
+    filename = secure_filename("image.png")  # You can customize the filename
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+    with open(os.path.join(UPLOAD_FOLDER, filename), "wb") as f:
+        f.write(file_bytes)
 
-    image_path = "./server/uploads/image.png"
+    print(f"File saved as {filename}")
 
-    print(hyperbolic_image_query(image_path, text))
+    # Process the uploaded image
+    image_path = os.path.join(UPLOAD_FOLDER, filename)  # Use the saved filename
 
-    return jsonify({"error": "Unknown error occurred"}), 500
+    # Add error handling to check if file exists
+    if not os.path.exists(image_path):
+        return jsonify({"error": "Image file not found"}), 404
+
+    try:
+        # Load the image using PIL
+        from PIL import Image
+
+        img = Image.open(image_path)  # Load the image
+
+        result = hyperbolic_image_query(img, text)  # Pass the image object
+        print(result)
+        return (
+            jsonify({"message": "File uploaded successfully", "query_result": result}),
+            200,
+        )
+    except Exception as e:
+        print(f"Error in hyperbolic_image_query: {str(e)}")
+        return jsonify({"error": "Failed to process image query"}), 500
