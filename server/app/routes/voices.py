@@ -51,7 +51,8 @@ async def respond():
     try:
         # Call the LLM service to get a concise response
         response = invoke_groq(
-            user_input + ". Return the output in proper markdown formatting"
+            user_input
+            + ". Return the output in proper markdown formatting. Double check to ensure you closed all markdown tags. Double check to answer responses in complete sentences. There should not be any incomplete sentences in the response.",
         )  # Call without await if it's synchronous
         concise_response = response  # Assuming the response is already concise
 
