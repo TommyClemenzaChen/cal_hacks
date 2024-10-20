@@ -45,7 +45,7 @@ def encode_image(img):
 
 def hyperbolic_image_query(img, prompt):
     # img = Image.open("path_to_your_image")
-    # print("I REACHED HYPERR")
+    print("I REACHED HYPERR")
     base64_img = encode_image(img)
 
     data = {
@@ -65,4 +65,5 @@ def hyperbolic_image_query(img, prompt):
     }
 
     response = requests.post(url, headers=headers, json=data)
+    print("response:", response)
     return response.json()
