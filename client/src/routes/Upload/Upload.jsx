@@ -1,3 +1,4 @@
+import ReactMarkdown from 'react-markdown';
 import { useState } from 'react';
 import axios from 'axios';
 import './Upload.css';
@@ -6,6 +7,7 @@ const Upload = () => {
 	const [file, setFile] = useState(null);
 	const [text, setText] = useState('');
 	const [message, setMessage] = useState('');
+	const [queryResult, setQueryResult] = useState(''); // New state for query result
 
 	const handleFileChange = (e) => {
 		setFile(e.target.files[0]);
@@ -23,7 +25,6 @@ const Upload = () => {
 		};
 
 		if (file) {
-			console.log(JSON.stringify(jsonData));
 			const reader = new FileReader();
 			reader.readAsDataURL(file);
 			reader.onloadend = async () => {
@@ -40,13 +41,10 @@ const Upload = () => {
 						}
 					);
 					setMessage(response.data.message);
-					console.log(JSON.stringify(jsonData));
+					setQueryResult(response.data.query_result); // Set the query result
 				} catch (error) {
 					setMessage(error.response?.data?.error || 'An error occurred');
 				}
-			};
-			reader.onerror = () => {
-				setMessage('Error reading file');
 			};
 		} else {
 			// If no file, just send the text
@@ -60,8 +58,8 @@ const Upload = () => {
 						},
 					}
 				);
-				console.log(JSON.stringify(jsonData));
 				setMessage(response.data.message);
+				setQueryResult(response.data.query_result); // Set the query result
 			} catch (error) {
 				setMessage(error.response?.data?.error || 'An error occurred');
 			}
@@ -118,6 +116,17 @@ const Upload = () => {
 						</button>
 					</form>
 					{message && <p className='upload-message'>{message}</p>}
+
+					{/* New section for displaying the query result */}
+					{queryResult && (
+						<div className='result-container'>
+							<h2 className='result-title'>Advice:</h2>
+
+							<ReactMarkdown className='result-content'>
+								{queryResult}
+							</ReactMarkdown>
+						</div>
+					)}
 				</div>
 			</main>
 		</div>

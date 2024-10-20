@@ -77,7 +77,7 @@ export default function HomePage() {
 		setIsLoading(true);
 
 		try {
-			const res = await axios.post('http://localhost:8000/api/llm/rag_groq', {
+			const res = await axios.post('http://localhost:8000/api/llm/combined', {
 				message: inputMessage,
 			});
 
@@ -85,7 +85,7 @@ export default function HomePage() {
 			const botMessage = { id: botMessageId, text: '', isBot: true };
 			setMessages((prevMessages) => [...prevMessages, botMessage]);
 
-			displayTextSlowly(botMessageId, res.data.response, 10);
+			displayTextSlowly(botMessageId, res.data.diagnosis, 10);
 		} catch (err) {
 			console.error('Error at query:', err);
 			const errorMessage = {
