@@ -12,3 +12,4 @@ server/app/data/chroma/chroma.sqlite3
 # Chroma DB
 app/data/chroma/chroma.sqlite3
 server/app/data/chroma/
+server/app/uploads/
