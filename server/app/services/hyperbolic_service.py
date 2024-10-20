@@ -45,25 +45,40 @@ def encode_image(img):
 
 def hyperbolic_image_query(img, prompt):
     # img = Image.open("path_to_your_image")
+
     print("I REACHED HYPERR")
+
     base64_img = encode_image(img)
 
-    data = {
-        "prompt": prompt,
-        "images": [
+    api = "https://api.hyperbolic.xyz/v1/chat/completions"
+    api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0Y2hlbjE3NUB1Y3NjLmVkdSIsImlhdCI6MTcyOTMxMTMzOH0.v7V9OLCeBUoY-xB-kpXKQCuH4Q85nDOSNgA8hfgw4cI"
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
+    }
+
+
+    payload = {
+        "messages": [
             {
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/jpeg;base64,{base64_img}",
-                },
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/jpeg;base64,{base64_img}"},
+                    },
+                ],
             }
         ],
-        "model": "meta-llama/Llama-3.2-90B-Vision",
+        "model": "meta-llama/Llama-3.2-90B-Vision-Instruct",
         "max_tokens": 2048,
         "temperature": 0.7,
         "top_p": 0.9,
     }
 
-    response = requests.post(url, headers=headers, json=data)
-    print("response:", response)
-    return response.json()
+    response = requests.post(api, headers=headers, json=payload)
+    
+    return response.json()["choices"][0]["message"]["content"]
+
