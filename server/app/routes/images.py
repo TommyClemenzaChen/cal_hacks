@@ -53,7 +53,7 @@ def upload_file():
         from PIL import Image
 
         img = Image.open(image_path)  # Load the image
-
+        print("image loaded")
         result = hyperbolic_image_query(img, text)  # Pass the image object
         print(result)
         return (
