@@ -3,6 +3,7 @@ from flask import Flask
 from flask_cors import CORS
 from .routes.llm import llm_bp
 from .routes.images import images_bp
+from .routes.voices import voices_bp
 from .services.rag_service import get_retriever
 
 import logging
@@ -22,5 +23,6 @@ def create_app():
 
     app.register_blueprint(llm_bp, url_prefix="/api/llm")
     app.register_blueprint(images_bp, url_prefix="/api/images")
+    app.register_blueprint(voices_bp, url_prefix="/api/voices")
 
     return app
