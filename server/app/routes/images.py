@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
 import os
 
+from ..services.hyperbolic_service import hyperbolic_image_query
+
 images_bp = Blueprint("images", __name__)
 
 UPLOAD_FOLDER = "uploads"
@@ -22,6 +24,10 @@ def upload_file():
         if file.filename == "":
             return jsonify({"error": "No selected file"}), 400
         if file and allowed_file(file.filename):
+            
+            # Hyperbolic image query
+            hyperbolic_image_query(file)
+            
             filename = secure_filename(file.filename)
             if not os.path.exists(UPLOAD_FOLDER):
                 os.makedirs(UPLOAD_FOLDER)
