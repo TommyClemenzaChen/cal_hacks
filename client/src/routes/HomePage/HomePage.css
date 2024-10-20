@@ -110,6 +110,8 @@
 	justify-content: center;
 	font-size: 24px;
 	margin: 0 auto;
+	margin-left: 790px;
+	padding-bottom: 10px;
 }
 
 .nav-links li {
@@ -202,6 +204,7 @@
 	line-height: 1.2;
 	color: #000;
 	font-weight: 500;
+	margin-bottom: 100px;
 }
 
 /* Remove scroll indicator styles */
