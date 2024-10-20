@@ -2,6 +2,13 @@ from flask import Blueprint, request, jsonify
 import aiohttp
 from config import DEEPGRAM_API_KEY
 from flask_cors import CORS
+from ..services.groq_service import (
+    invoke_groq,
+)  # Import the function to use for AI response
+
+
+from ..services.rag_service import invoke_rag  # Import if needed for context
+
 
 voices_bp = Blueprint("voices", __name__)
 CORS(voices_bp, supports_credentials=True)
@@ -38,8 +45,19 @@ async def transcribe():
 @voices_bp.route("/respond", methods=["POST"])
 async def respond():
     user_input = request.json.get("text")
-    # Here you would implement your logic to generate a response based on user_input
-    # For demonstration, we'll just echo the input back
-    response_text = f"Echo: {user_input}"  # Replace with actual response logic
-    print("res:", response_text)
-    return jsonify({"response_text": response_text})
+    if not user_input:
+        return jsonify({"error": "No input text provided"}), 400
+
+    try:
+        # Call the LLM service to get a concise response
+        response = invoke_groq(
+            user_input + ". Return the output in proper markdown formatting"
+        )  # Call without await if it's synchronous
+        concise_response = response  # Assuming the response is already concise
+
+        print("AI Response:", concise_response)
+        return jsonify({"response_text": concise_response})
+
+    except Exception as e:
+        print("Error in AI response:", str(e))
+        return jsonify({"error": "Failed to generate response"}), 500
