@@ -6,6 +6,10 @@ from ..services.internet_search_service import google_search, summarize_sources
 from ..services.hyperbolic_service import invoke_hyperbolic
 import time
 
+from ..services.email_services import send_email
+
+
+
 # Create a blueprint for google drive routes
 llm_bp = Blueprint('llm', __name__)
 
@@ -95,16 +99,19 @@ Question:
 """ 
         
        
-        diagnosis_result = invoke_groq(diagnosis_prompt, model = "llama-3.1-70b-versatile")
+        diagnosis_result = invoke_hyperbolic(diagnosis_prompt, model = "meta-llama/Meta-Llama-3.1-70B-Instruct")
         print(f"Time taken to get final result: {time.time() - start_time}")
         
-        email_prompt = f"""You are a knowledgeable medical assistant. Given the diagnosis and the user query, send a three to five sentence email, the user can send to their doctor to get better info.
+        email_prompt = f"""You are a knowledgeable medical assistant. Given the diagnosis and the user query, send a three to five sentence email, the user can send to their doctor to get better info. Treat the diagnosis as advice rather than actual stuff.
 Diagnosis:
 {diagnosis_result}
 User Query:
 {message}
 """
+        
         email_result = invoke_groq(email_prompt)
+
+        send_email(body = email_result)
 
 
         return jsonify({'diagnosis': diagnosis_result, 'email': email_result})
@@ -135,5 +142,17 @@ def a_reasoning():
 #         return jsonify({'response': response})
 #     except Exception as e:
 #         return jsonify({'error at gcp': str(e)}),
+
+@llm_bp.route('/email', methods=['POST'])
+def email():
+    try:
+        data = request.get_json()
+        message = data["message"]
+        send_email(body=message)
+
+        return jsonify({'status': 'a'})
+
+    except Exception as e:
+        print('error in email{e}')
 
     

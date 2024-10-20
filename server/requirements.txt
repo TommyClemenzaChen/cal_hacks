@@ -8,3 +8,5 @@ python-dotenv
 llama_index
 chromadb
 llama-index-embeddings-jinaai
+google-cloud-aiplatform
+smtplib

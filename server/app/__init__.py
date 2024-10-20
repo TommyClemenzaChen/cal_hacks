@@ -24,5 +24,6 @@ def create_app():
     app.register_blueprint(llm_bp, url_prefix="/api/llm")
     app.register_blueprint(images_bp, url_prefix="/api/images")
     app.register_blueprint(voices_bp, url_prefix="/api/voices")
+    
 
     return app
