@@ -45,6 +45,9 @@ def encode_image(img):
 
 def hyperbolic_image_query(img, prompt):
     # img = Image.open("path_to_your_image")
+
+    print("I REACHED HYPERR")
+
     base64_img = encode_image(img)
 
     api = "https://api.hyperbolic.xyz/v1/chat/completions"
@@ -78,3 +81,4 @@ def hyperbolic_image_query(img, prompt):
     response = requests.post(api, headers=headers, json=payload)
     
     return response.json()["choices"][0]["message"]["content"]
+
