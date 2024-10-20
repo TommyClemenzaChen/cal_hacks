@@ -55,7 +55,7 @@ def invoke_rag(query_text: str):
             context += content.text + "\n"
 
         prompt = """
-You are a knowledgeable medical assistant, providing accurate, evidence-based answers to medical questions. Use the context from the RAG model, which includes clinical guidelines and medical research, to answer the following question. Offer possible diagnoses, treatments, or recommended next steps, considering symptoms. Return the answer back markdown formatted.
+You are a knowledgeable medical assistant, providing accurate, evidence-based answers to medical questions. Use the context from the RAG model, which includes clinical guidelines and medical research, to answer the following question. Offer possible diagnoses, treatments, or recommended next steps, considering symptoms. Ensure that the answer is returned back in completely, and not cut off the answer. Return the answer back markdown formatted properly, follow markdown rules and ensure that if you start formatting you end it. Double check the answer that you follow these rules before returning.
 Context:
 {context_str}
 Question:

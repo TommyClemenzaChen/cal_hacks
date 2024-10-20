@@ -75,7 +75,7 @@ export default function HomePage() {
 				<nav className='navbar'>
 					<ul className='nav-links'>
 						<li>
-							<a href='/'>Homepage</a>
+							<a href='/'>Home</a>
 						</li>
 						<li>
 							<a href='/voice'>Voice</a>
