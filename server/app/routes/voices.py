@@ -33,3 +33,13 @@ async def transcribe():
                 return jsonify({"transcribed_text": transcribed_text})
             else:
                 return jsonify({"error": "Failed to transcribe audio"}), response.status
+
+
+@voices_bp.route("/respond", methods=["POST"])
+async def respond():
+    user_input = request.json.get("text")
+    # Here you would implement your logic to generate a response based on user_input
+    # For demonstration, we'll just echo the input back
+    response_text = f"Echo: {user_input}"  # Replace with actual response logic
+    print("res:", response_text)
+    return jsonify({"response_text": response_text})

@@ -1,7 +1,9 @@
 import { useState, useRef } from 'react';
+import './Voice.css';
 import axios from 'axios';
 
 const VoiceTranscriber = () => {
+	const [agentResponse, setAgentResponse] = useState('');
 	const [transcribedText, setTranscribedText] = useState('');
 	const [isRecording, setIsRecording] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +32,7 @@ const VoiceTranscriber = () => {
 			mediaRecorder.current.onstop = async () => {
 				const audioBlob = new Blob(audioChunks.current, { type: 'audio/webm' });
 				audioChunks.current = [];
-				await transcribeAudio(audioBlob);
+				await handleTranscription(audioBlob);
 			};
 			setIsRecording(false);
 		}
@@ -52,21 +54,19 @@ const VoiceTranscriber = () => {
 					withCredentials: true,
 				}
 			);
-			setTranscribedText(response.data.transcribed_text);
+			const transcribedText = response.data.transcribed_text;
+			setTranscribedText(transcribedText);
+			return transcribedText; // Return the transcribed text
 		} catch (err) {
 			console.error('Transcription error:', err);
 			let errorMessage = 'An error occurred while transcribing the audio';
 			if (err.response) {
-				// The request was made and the server responded with a status code
-				// that falls out of the range of 2xx
 				errorMessage += `: ${
 					err.response.data.error || err.response.statusText
 				}`;
 			} else if (err.request) {
-				// The request was made but no response was received
 				errorMessage += ': No response received from server';
 			} else {
-				// Something happened in setting up the request that triggered an Error
 				errorMessage += `: ${err.message}`;
 			}
 			setError(errorMessage);
@@ -74,30 +74,67 @@ const VoiceTranscriber = () => {
 			setIsLoading(false);
 		}
 	};
+
+	const getAgentResponse = async (text) => {
+		console.log('Sending to agent:', text); // Debugging log
+		try {
+			const response = await axios.post(
+				'http://localhost:8000/api/voices/respond',
+				{ text }
+			);
+			setAgentResponse(response.data.response_text);
+		} catch (err) {
+			console.error('Response error:', err);
+			setError('Error getting response from agent');
+		}
+	};
+
+	const handleTranscription = async (audioBlob) => {
+		const transcription = await transcribeAudio(audioBlob);
+		await getAgentResponse(transcription);
+	};
+
 	return (
-		<div className='container mx-auto px-4 py-8'>
-			<h1 className='text-2xl font-bold mb-4'>Voice Transcriber</h1>
-			<div className='mb-4'>
-				<button
-					onClick={isRecording ? stopRecording : startRecording}
-					className={`px-4 py-2 rounded-md ${
-						isRecording
-							? 'bg-red-600 hover:bg-red-700'
-							: 'bg-blue-600 hover:bg-blue-700'
-					} text-white font-medium`}>
-					{isRecording ? 'Stop Recording' : 'Start Recording'}
-				</button>
-			</div>
+		<div className='page-container'>
+			<header>
+				<nav className='navbar'>
+					<ul className='nav-links'>
+						<li>
+							<a href='/'>Home</a>
+						</li>
+						<li>
+							<a href='/voice'>Voice</a>
+						</li>
+						<li>
+							<a href='/upload'>Upload</a>
+						</li>
+					</ul>
+				</nav>
+			</header>
+			<main className='voice-section'>
+				<div className='voice-container'>
+					<h1 className='voice-title'>Voice Transcriber</h1>
+					<div className='voice-controls'>
+						<button
+							onClick={isRecording ? stopRecording : startRecording}
+							className={`voice-button ${isRecording ? 'recording' : ''}`}>
+							{isRecording ? 'Stop Recording' : 'Start Recording'}
+						</button>
+					</div>
 
-			{isLoading && <p>Transcribing...</p>}
-			{error && <p className='text-red-500'>{error}</p>}
+					{isLoading && <p className='voice-status'>Transcribing...</p>}
+					{error && <p className='voice-error'>{error}</p>}
 
-			{transcribedText && (
-				<div className='mt-4'>
-					<h2 className='text-xl font-semibold mb-2'>Transcribed Text:</h2>
-					<p>{transcribedText}</p>
+					{transcribedText && (
+						<div className='transcription-result'>
+							<h2 className='transcription-title'>Transcribed Text:</h2>
+							<p className='transcription-text'>{transcribedText}</p>
+							<h2 className='transcription-title'>Agent Response:</h2>
+							<p className='transcription-text'>{agentResponse}</p>
+						</div>
+					)}
 				</div>
-			)}
+			</main>
 		</div>
 	);
 };

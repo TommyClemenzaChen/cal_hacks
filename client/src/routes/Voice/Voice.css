@@ -1,0 +1,135 @@
+/* Reset some default margins and paddings */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* Apply full height and gradient background to the entire page */
+body,
+html {
+	height: 100%;
+	font-family: Arial, sans-serif;
+	background: linear-gradient(to right, #ffe0b2, #ff9e80);
+}
+
+/* Page container to wrap content */
+.page-container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+/* Navbar styling */
+.navbar {
+	display: flex;
+	justify-content: flex-end;
+	background-color: transparent;
+	padding: 1rem 2rem;
+	font-size: 1.2rem;
+}
+
+.nav-links {
+	list-style-type: none;
+	display: flex;
+	gap: 1.5rem;
+}
+
+.nav-links a {
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+	transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+	color: #5b2c96;
+}
+
+/* Voice section takes up available space */
+.voice-section {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
+}
+
+/* Content container */
+.voice-container {
+	width: 80%;
+	max-width: 800px;
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius: 20px;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+	padding: 2rem;
+}
+
+.voice-title {
+	font-size: 2.5rem;
+	margin-bottom: 1.5rem;
+	text-align: center;
+	color: #5b2c96;
+}
+
+.voice-controls {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 1.5rem;
+}
+
+/* Buttons styling */
+.voice-button {
+	background-color: #5b2c96;
+	color: white;
+	border: none;
+	border-radius: 25px;
+	padding: 0.75rem 1.5rem;
+	font-size: 1.1rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.voice-button:hover {
+	background-color: #4a2580;
+}
+
+.voice-button.recording {
+	background-color: #d32f2f;
+}
+
+.voice-button.recording:hover {
+	background-color: #b71c1c;
+}
+
+/* Error and status messages */
+.voice-status,
+.voice-error {
+	text-align: center;
+	font-weight: 500;
+	margin-bottom: 1rem;
+}
+
+.voice-error {
+	color: #d32f2f;
+}
+
+/* Transcription result */
+.transcription-result {
+	margin-top: 1.5rem;
+}
+
+.transcription-title {
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: #5b2c96;
+	margin-bottom: 0.5rem;
+}
+
+.transcription-text {
+	background-color: #f0f0f0;
+	border-radius: 10px;
+	padding: 1rem;
+	font-size: 1.1rem;
+	line-height: 1.5;
+}
