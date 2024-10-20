@@ -43,16 +43,23 @@ def get_retriever(k=3):
     except Exception as e:
         print(f"Error at getting retrieval: {e}")
 
-
-def invoke_rag(query_text: str):
+def get_context(query_text: str):
     try:
         retriever = current_app.config["Retriever"]
         retrieved_content = retriever.retrieve(query_text)
 
         # Extracting text from the selected nodes
-        context = "Context"
+        context = "Context: \n"
         for content in retrieved_content:
             context += content.text + "\n"
+        return context
+    except Exception as e:
+        print(f"Error at getting context: {e}")
+
+
+def invoke_rag(query_text: str):
+    try:
+        context = get_context(query_text)
 
         prompt = """
 You are a knowledgeable medical assistant, providing accurate, evidence-based answers to medical questions. Use the context from the RAG model, which includes clinical guidelines and medical research, to answer the following question. Offer possible diagnoses, treatments, or recommended next steps, considering symptoms. Ensure that the answer is returned back in completely, and not cut off the answer. Return the answer back markdown formatted properly, follow markdown rules and ensure that if you start formatting you end it. Double check the answer that you follow these rules before returning.
