@@ -49,12 +49,11 @@ async def respond():
         return jsonify({"error": "No input text provided"}), 400
 
     try:
-        # Call the LLM service to get a concise response
         response = invoke_groq(
             user_input
-            + ". Return the output in proper markdown formatting. Double check to ensure you closed all markdown tags. Double check to answer responses in complete sentences. There should not be any incomplete sentences in the response.",
-        )  # Call without await if it's synchronous
-        concise_response = response  # Assuming the response is already concise
+            + ". Write this as if you were a professional medical advise giver and that your words can heavily impact other's lives.Stop before 300 tokens. Follow Markdown formatting with # for title, then numbered h2s for subtitle and bullet points for the infornation. Return the output in proper markdown formatting. Double check to ensure you closed all markdown tags. Double check to answer responses in complete sentences. There should not be any incomplete sentences in the response. Things like undefined and null should not be in the response. Double check that each sentence is a proper english sentence. If you start a bullet point, YOU MUST finish it with an english sentence. If you can't finish a sentence or bulletpoint, dont write it and end earlier. If you can't finish a sentence, don't write it and end earlier. If you can't finish a bulletpoint, don't write it and end earlier. If you can't finish a sentence, don't write it and end earlier. If you can't finish a bulletpoint, don't write it and end earlier. If you can't finish a sentence, don't write it and end earlier. The words aundefined, undefined, or **undefined should not be in the input, if they do, don't show that sentence or bullet point.",
+        )
+        concise_response = response
 
         print("AI Response:", concise_response)
         return jsonify({"response_text": concise_response})
