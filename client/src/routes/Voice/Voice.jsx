@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import './Voice.css';
+import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 
 const VoiceTranscriber = () => {
@@ -130,7 +131,9 @@ const VoiceTranscriber = () => {
 							<h2 className='transcription-title'>Transcribed Text:</h2>
 							<p className='transcription-text'>{transcribedText}</p>
 							<h2 className='transcription-title'>Agent Response:</h2>
-							<p className='transcription-text'>{agentResponse}</p>
+							<ReactMarkdown className='transcription-text'>
+								{agentResponse}
+							</ReactMarkdown>
 						</div>
 					)}
 				</div>

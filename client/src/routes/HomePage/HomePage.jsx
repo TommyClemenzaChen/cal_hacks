@@ -7,7 +7,11 @@ import './HomePage.css';
 export default function HomePage() {
 	const [user, setUser] = useState(null);
 	const [messages, setMessages] = useState([
-		{ text: '[BOT]: Hello, how can I help you today?', isBot: true },
+		{
+			id: Date.now(),
+			text: '[BOT]: Hello, how can I help you today?',
+			isBot: true,
+		},
 	]);
 	const [inputMessage, setInputMessage] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +27,9 @@ export default function HomePage() {
 	}, [auth]);
 
 	useEffect(() => {
-		scrollToBottom();
+		if (messages.length > 1) {
+			scrollToBottom();
+		}
 	}, [messages]);
 
 	const scrollToBottom = () => {
@@ -38,16 +44,36 @@ export default function HomePage() {
 			console.log('Error signing out: ', err);
 		}
 	};
+
 	const handleInputChange = (e) => {
 		setInputMessage(e.target.value);
+	};
+
+	const displayTextSlowly = (messageId, text, interval) => {
+		let index = 0;
+
+		const intervalId = setInterval(() => {
+			if (index < text.length) {
+				setMessages((prevMessages) =>
+					prevMessages.map((msg) =>
+						msg.id === messageId
+							? { ...msg, text: msg.text + text[index] }
+							: msg
+					)
+				);
+				index++;
+			} else {
+				clearInterval(intervalId);
+			}
+		}, interval);
 	};
 
 	const handleSendMessage = async () => {
 		if (inputMessage.trim() === '') return;
 
-		const newUserMessage = { text: inputMessage, isBot: false };
+		const newUserMessage = { id: Date.now(), text: inputMessage, isBot: false };
 		setMessages((prevMessages) => [...prevMessages, newUserMessage]);
-		setInputMessage(''); // Clear the input after sending
+		setInputMessage('');
 		setIsLoading(true);
 
 		try {
@@ -55,11 +81,15 @@ export default function HomePage() {
 				message: inputMessage,
 			});
 
-			const botResponse = { text: res.data.response, isBot: true };
-			setMessages((prevMessages) => [...prevMessages, botResponse]);
+			const botMessageId = Date.now();
+			const botMessage = { id: botMessageId, text: '', isBot: true };
+			setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+			displayTextSlowly(botMessageId, res.data.response, 10);
 		} catch (err) {
 			console.error('Error at query:', err);
 			const errorMessage = {
+				id: Date.now(),
 				text: "Sorry, I couldn't process your request.",
 				isBot: true,
 			};
@@ -112,9 +142,9 @@ export default function HomePage() {
 				<div className='chatbox-container'>
 					<div className='chatbox'>
 						<div className='chatbox-messages'>
-							{messages.map((message, index) => (
+							{messages.map((message) => (
 								<div
-									key={index}
+									key={message.id}
 									className={`chatbox-message ${
 										message.isBot ? 'bot' : 'user'
 									}`}>
@@ -140,8 +170,8 @@ export default function HomePage() {
 								placeholder='Type your message here...'
 								value={inputMessage}
 								onChange={handleInputChange}
-								rows={1} // Initial rows
-								style={{ resize: 'none', overflow: 'hidden' }} // Prevent manual resizing
+								rows={1}
+								style={{ resize: 'none', overflow: 'hidden' }}
 							/>
 							<button
 								className='chatbox-send-btn'
