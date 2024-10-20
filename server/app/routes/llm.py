@@ -89,14 +89,35 @@ async def reasoning():
         internet_context_summarized = await summarize_sources(message)
         print(f"Time taken to get internet context: {time.time() - start_time}")
 
-        diagnosis_prompt = f"""You are a knowledgeable medical assistant, providing accurate, evidence-based answers to medical questions. Use the context from the RAG model, which includes clinical guidelines and medical research, and context from websites from includes practical medical information to answer the following question. First determine the severity of the issue from 1 - 10 with 1 being harmless to 10 being call 911. Discuss possible diagnoses, treatments, or recommended next steps, considering the symptoms. Return the answer back markdown formatted.
+        diagnosis_prompt = f"""
+You are a knowledgeable medical assistant, providing accurate, evidence-based answers to medical questions. Use the context from the RAG model, which includes clinical guidelines and medical research, and context from websites that include practical medical information to answer the following question. 
+
+First, determine the severity of the issue on a scale from 1 to 10, with 1 being harmless and 10 being a medical emergency (e.g., call 911). 
+
+Then, structure your answer into the following sections, returning the answer in markdown format:
+
+### 1. Severity of the Diagnosis
+Provide a summary of the severity rating (1-10) and a brief explanation.
+
+### 2. Possible Diagnoses
+List possible diagnoses, each with a brief description.
+
+### 3. Possible Treatments / Next Steps
+Suggest potential treatments or recommended next steps, using bullet points for clarity.
+
+### 4. Additional Advice
+Offer any other relevant advice or considerations.
+
 RAG Context:
 {rag_context}
+
 Website Context:
 {internet_context_summarized}
+
 Question:
 {message}
-""" 
+"""
+
         
        
         diagnosis_result = invoke_hyperbolic(diagnosis_prompt, model = "meta-llama/Meta-Llama-3.1-70B-Instruct")
