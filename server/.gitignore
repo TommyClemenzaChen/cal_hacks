@@ -13,3 +13,4 @@ server/app/data/chroma/chroma.sqlite3
 app/data/chroma/chroma.sqlite3
 server/app/data/chroma/
 server/app/uploads/
+uploads/
