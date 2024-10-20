@@ -23,7 +23,10 @@ export default function HomePage() {
 	}, [auth]);
 
 	useEffect(() => {
-		scrollToBottom();
+		if (messages.length > 1) {
+			// Check if there are new messages
+			scrollToBottom();
+		}
 	}, [messages]);
 
 	const scrollToBottom = () => {
