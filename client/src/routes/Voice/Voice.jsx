@@ -83,7 +83,8 @@ const VoiceTranscriber = () => {
 				'http://localhost:8000/api/voices/respond',
 				{ text }
 			);
-			setAgentResponse(response.data.response_text);
+			// Use displayTextSlowly to show the response gradually
+			displayTextSlowly(response.data.response_text, 25);
 		} catch (err) {
 			console.error('Response error:', err);
 			setError('Error getting response from agent');
@@ -93,6 +94,19 @@ const VoiceTranscriber = () => {
 	const handleTranscription = async (audioBlob) => {
 		const transcription = await transcribeAudio(audioBlob);
 		await getAgentResponse(transcription);
+	};
+
+	const displayTextSlowly = (text, interval) => {
+		let index = 0;
+
+		const intervalId = setInterval(() => {
+			if (index < text.length) {
+				setAgentResponse((prev) => prev + text[index]);
+				index++;
+			} else {
+				clearInterval(intervalId);
+			}
+		}, interval);
 	};
 
 	return (
