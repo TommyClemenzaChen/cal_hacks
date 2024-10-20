@@ -17,28 +17,54 @@ const Upload = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const formData = new FormData();
+
+		const jsonData = {
+			text: text,
+		};
 
 		if (file) {
-			formData.append('file', file);
-		}
-		if (text) {
-			formData.append('text', text);
-		}
+			console.log(JSON.stringify(jsonData));
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onloadend = async () => {
+				jsonData.file = reader.result;
 
-		try {
-			const response = await axios.post(
-				'http://localhost:8000/api/images/upload',
-				formData,
-				{
-					headers: {
-						'Content-Type': 'multipart/form-data',
-					},
+				try {
+					const response = await axios.post(
+						'http://localhost:8000/api/images/upload',
+						jsonData,
+						{
+							headers: {
+								'Content-Type': 'application/json',
+							},
+						}
+					);
+					setMessage(response.data.message);
+					console.log(JSON.stringify(jsonData));
+				} catch (error) {
+					setMessage(error.response?.data?.error || 'An error occurred');
 				}
-			);
-			setMessage(response.data.message);
-		} catch (error) {
-			setMessage(error.response?.data?.error || 'An error occurred');
+			};
+			reader.onerror = () => {
+				setMessage('Error reading file');
+			};
+		} else {
+			// If no file, just send the text
+			try {
+				const response = await axios.post(
+					'http://localhost:8000/api/images/upload',
+					jsonData,
+					{
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					}
+				);
+				console.log(JSON.stringify(jsonData));
+				setMessage(response.data.message);
+			} catch (error) {
+				setMessage(error.response?.data?.error || 'An error occurred');
+			}
 		}
 	};
 
